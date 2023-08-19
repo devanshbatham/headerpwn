@@ -3,17 +3,18 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"net/http"
+	"net/url"
 	"strings"
 	"sync"
 	"time"
-	"os"
+
 	"github.com/fatih/color"
-	"math/rand"
-	"bufio"
 	"io"
-	"log"
-	"net/url"
+	"math/rand"
+	"os"
+	"bufio"
 )
 
 type Result struct {
@@ -26,10 +27,10 @@ type Result struct {
 func main() {
 	urlPtr := flag.String("url", "", "URL to make requests to")
 	headersFilePtr := flag.String("headers", "", "File containing headers for requests")
+	proxyPtr := flag.String("proxy", "", "Proxy server IP:PORT (e.g., 127.0.0.1:8080)")
 	flag.Parse()
 	log.SetFlags(0)
-
-    // Print tool banner
+	    // Print tool banner
     log.Print(`
 
 
@@ -40,6 +41,7 @@ func main() {
 	                          /_/               
     
 `)
+
 	if *urlPtr == "" {
 		fmt.Println("Please provide a valid URL using the -url flag")
 		return
@@ -64,7 +66,7 @@ func main() {
 		go func(header string) {
 			defer wg.Done()
 
-			response, err := makeRequest(*urlPtr, header)
+			response, err := makeRequest(*urlPtr, header, *proxyPtr)
 			if err != nil {
 				return
 			}
@@ -107,8 +109,8 @@ func readHeadersFromFile(filename string) ([]string, error) {
 	return headers, nil
 }
 
-func makeRequest(url, header string) (*http.Response, error) {
-	urlWithBuster := url + "?cachebuster=" + generateCacheBuster()
+func makeRequest(baseURL, header, proxy string) (*http.Response, error) {
+	urlWithBuster := baseURL + "?cachebuster=" + generateCacheBuster()
 	headers := parseHeaders(header)
 
 	req, err := http.NewRequest("GET", urlWithBuster, nil)
@@ -124,6 +126,16 @@ func makeRequest(url, header string) (*http.Response, error) {
 	}
 
 	client := &http.Client{}
+	if proxy != "" {
+		proxyURL, err := url.Parse("http://" + proxy)
+		if err != nil {
+			fmt.Println("Error parsing proxy URL:", err)
+			return nil, err
+		}
+		transport := &http.Transport{Proxy: http.ProxyURL(proxyURL)}
+		client = &http.Client{Transport: transport}
+	}
+
 	response, err := client.Do(req)
 	if err != nil {
 		return nil, err
