@@ -30,9 +30,20 @@ headerpwn allows you to test various headers on a target URL and analyze the res
 
 Example usage:
 ```sh
-headerpwn -url "https://example.com" -headers "my_headers.txt"
+headerpwn -url https://example.com -headers my_headers.txt
 ```
 
+
+- Format of `my_headers.txt` should be like below:
+
+```sh
+Proxy-Authenticate: foobar
+Proxy-Authentication-Required: foobar
+Proxy-Authorization: foobar
+Proxy-Connection: foobar
+Proxy-Host: foobar
+Proxy-Http: foobar
+```
 
 ## Credits
 The `headers.txt` fileis compiled from various sources, including the Seclists project (https://github.com/danielmiessler/SecLists). These headers are used for testing purposes and provide a variety of scenarios for analyzing how servers respond to different headers.
