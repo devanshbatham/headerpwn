@@ -74,6 +74,10 @@ headerpwn -url https://example.com -headers my_headers.txt -proxy 127.0.0.1:8080
 
 
 
+![proxy](https://github.com/devanshbatham/headerpwn/blob/main/static/proxy-cli.png?raw=true)
+
+
+![proxy-burp](https://github.com/devanshbatham/headerpwn/blob/main/static/proxy-burp.png?raw=true)
 
 
 ## Credits
