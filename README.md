@@ -19,7 +19,7 @@
 To install `headerpwn``, run the following command:
 
 ```
-go install github.com/devanshbatham/headerpwn@latest
+go install github.com/devanshbatham/headerpwn@v0.0.1
 ```
 
 # Usage
