@@ -82,5 +82,5 @@ headerpwn -url https://example.com -headers my_headers.txt -proxy 127.0.0.1:8080
 
 
 ## Credits
-The `headers.txt` fileis compiled from various sources, including the Seclists project (https://github.com/danielmiessler/SecLists). These headers are used for testing purposes and provide a variety of scenarios for analyzing how servers respond to different headers.
+The `headers.txt` file is compiled from various sources, including the Seclists project (https://github.com/danielmiessler/SecLists). These headers are used for testing purposes and provide a variety of scenarios for analyzing how servers respond to different headers.
 
