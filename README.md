@@ -33,7 +33,6 @@ Example usage:
 headerpwn -url https://example.com -headers my_headers.txt
 ```
 
-
 - Format of `my_headers.txt` should be like below:
 
 ```sh
@@ -44,6 +43,38 @@ Proxy-Connection: foobar
 Proxy-Host: foobar
 Proxy-Http: foobar
 ```
+
+## Proxying requests through Burp Suite: 
+
+Follow following steps to proxy requests through Burp Suite: 
+
+
+- Export Burp's Certificate:
+
+    - In Burp Suite, go to the "Proxy" tab.
+    - Under the "Proxy Listeners" section, select the listener that is configured for `127.0.0.1:8080`
+    - Click on the "Import/ Export CA Certificate" button.
+    - In the certificate window, click "Export Certificate" and save the certificate file (e.g., burp.der).
+
+
+- Install Burp's Certificate:
+
+    - Install the exported certificate as a trusted certificate on your system. How you do this depends on your operating system.
+    - On Windows, you can double-click the .cer file and follow the prompts to install it in the "Trusted Root Certification Authorities" store.
+    - On macOS, you can double-click the .cer file and add it to the "Keychain Access" application in the "System" keychain.
+    - On Linux, you might need to copy the certificate to a trusted certificate location and configure your system to trust it.
+
+
+You should be all set: 
+
+
+```sh
+headerpwn -url https://example.com -headers my_headers.txt -proxy 127.0.0.1:8080
+```
+
+
+
+
 
 ## Credits
 The `headers.txt` fileis compiled from various sources, including the Seclists project (https://github.com/danielmiessler/SecLists). These headers are used for testing purposes and provide a variety of scenarios for analyzing how servers respond to different headers.
