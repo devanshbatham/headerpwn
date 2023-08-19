@@ -3,7 +3,7 @@
   <br>
 </h1>
 
-<h4 align="center">A fuzzer for finding anolamies and analyzing how servers respond to different HTTP headers headers.</h4>
+<h4 align="center">A fuzzer for analyzing how servers respond to different HTTP headers.</h4>
 
 
 <p align="center">
@@ -13,7 +13,7 @@
 </p>
 
 
-![headerpwn](https://github.com/your-username/headerpwn/blob/main/static/headerpwn.png?raw=true)
+![headerpwn](https://github.com/devanshbatham/headerpwn/blob/main/static/headerpwn.png?raw=true)
 
 # Install
 To install `headerpwn``, run the following command:
