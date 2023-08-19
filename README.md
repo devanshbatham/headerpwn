@@ -9,6 +9,7 @@
 <p align="center">
   <a href="#install">🏗️ Install</a>
   <a href="#usage">⛏️ Usage</a>
+  <a href="#proxying-requests-through-burp-suite">📡 Proxying</a>
   <br>
 </p>
 
