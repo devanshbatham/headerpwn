@@ -17,7 +17,7 @@
 ![headerpwn](https://github.com/devanshbatham/headerpwn/blob/main/static/banner.png?raw=true)
 
 # Install
-To install `headerpwn``, run the following command:
+To install `headerpwn`, run the following command:
 
 ```
 go install github.com/devanshbatham/headerpwn@v0.0.1
