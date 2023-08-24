@@ -28,19 +28,20 @@ func main() {
 	urlPtr := flag.String("url", "", "URL to make requests to")
 	headersFilePtr := flag.String("headers", "", "File containing headers for requests")
 	proxyPtr := flag.String("proxy", "", "Proxy server IP:PORT (e.g., 127.0.0.1:8080)")
+	quietPtr := flag.Bool("q", false, "Suppress banner")
 	flag.Parse()
 	log.SetFlags(0)
 	    // Print tool banner
-    log.Print(`
-
-
-	   __               __                      
-	  / /  ___ ___  ___/ /__ _______ _    _____ 
-	 / _ \/ -_) _ \/ _  / -_) __/ _ \ |/|/ / _ \
-	/_//_/\__/\_,_/\_,_/\__/_/ / .__/__,__/_//_/
-	                          /_/               
-    
-`)
+		if !*quietPtr {
+			// Print tool banner
+			log.Print(`
+			   __               __                      
+			  / /  ___ ___  ___/ /__ _______ _    _____ 
+			 / _ \/ -_) _ \/ _  / -_) __/ _ \ |/|/ / _ \
+			/_//_/\__/\_,_/\_,_/\__/_/ / .__/__,__/_//_/
+									  /_/                
+			`)
+		}
 
 	if *urlPtr == "" {
 		fmt.Println("Please provide a valid URL using the -url flag")
