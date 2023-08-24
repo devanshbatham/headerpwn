@@ -32,16 +32,17 @@ func main() {
 	flag.Parse()
 	log.SetFlags(0)
 	    // Print tool banner
-		if !*quietPtr {
-			// Print tool banner
-			log.Print(`
-			   __               __                      
-			  / /  ___ ___  ___/ /__ _______ _    _____ 
-			 / _ \/ -_) _ \/ _  / -_) __/ _ \ |/|/ / _ \
-			/_//_/\__/\_,_/\_,_/\__/_/ / .__/__,__/_//_/
-									  /_/                
-			`)
-		}
+	if !*quietPtr {
+		// Print tool banner
+		log.Print(`
+		 __               __                      
+		/ /  ___ ___  ___/ /__ _______ _    _____ 
+	   / _ \/ -_) _ \/ _  / -_) __/ _ \ |/|/ / _ \
+	  /_//_/\__/\_,_/\_,_/\__/_/ / .__/__,__/_//_/
+								/_/               
+				 
+		`)
+	}
 
 	if *urlPtr == "" {
 		fmt.Println("Please provide a valid URL using the -url flag")
