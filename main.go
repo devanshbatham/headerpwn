@@ -28,6 +28,8 @@ func main() {
 	urlPtr := flag.String("url", "", "URL to make requests to")
 	headersFilePtr := flag.String("headers", "", "File containing headers for requests")
 	proxyPtr := flag.String("proxy", "", "Proxy server IP:PORT (e.g., 127.0.0.1:8080)")
+	userAgentPtr := flag.String("user-agent", "", "User-Agent (e.g. Mozilla/4.0)")
+	randomUserAgentPtr := flag.Bool("rua", false, "Use a random User-Agent for each request")
 	quietPtr := flag.Bool("q", false, "Suppress banner")
 	flag.Parse()
 	log.SetFlags(0)
@@ -70,7 +72,7 @@ func main() {
 		go func(header string) {
 			defer wg.Done()
 
-			response, err := makeRequest(*urlPtr, header, *proxyPtr)
+			response, err := makeRequest(*urlPtr, header, *proxyPtr, *userAgentPtr, *randomUserAgentPtr)
 			if err != nil {
 				return
 			}
@@ -113,7 +115,7 @@ func readHeadersFromFile(filename string) ([]string, error) {
 	return headers, nil
 }
 
-func makeRequest(baseURL, header, proxy string) (*http.Response, error) {
+func makeRequest(baseURL, header, proxy string, userAgent string, randomUserAgent bool) (*http.Response, error) {
 	urlWithBuster := baseURL + "?cachebuster=" + generateCacheBuster()
 	headers := parseHeaders(header)
 
@@ -138,6 +140,23 @@ func makeRequest(baseURL, header, proxy string) (*http.Response, error) {
 		}
 		transport := &http.Transport{Proxy: http.ProxyURL(proxyURL)}
 		client = &http.Client{Transport: transport}
+	}
+
+	if userAgent != "" {
+		req.Header.Set("User-Agent", userAgent)
+	}
+
+	if randomUserAgent == true {
+		userAgents, err := loadUserAgents("useragents.txt")
+
+		if err != nil {
+			fmt.Println("Error loading user agents:", err)
+			return nil, err
+		}
+
+		rand.Seed(time.Now().UnixNano())
+		randomAgent := userAgents[rand.Intn(len(userAgents))]
+		req.Header.Set("User-Agent", randomAgent)
 	}
 
 	response, err := client.Do(req)
@@ -196,4 +215,24 @@ func printResults(results <-chan Result) {
 		resultOutput := fmt.Sprintf("%s %s %s %s", statusOutput, contentLengthOutput, headerOutput, urlOutput)
 		fmt.Println(resultOutput)
 	}
+}
+
+func loadUserAgents(filePath string) ([]string, error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	var userAgents []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		userAgents = append(userAgents, scanner.Text())
+	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, err
+	}
+
+	return userAgents, nil
 }
