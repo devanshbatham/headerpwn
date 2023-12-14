@@ -32,6 +32,8 @@ headerpwn allows you to test various headers on a target URL and analyze the res
 Example usage:
 ```sh
 headerpwn -url https://example.com -headers my_headers.txt
+headerpwn -url https://example.com -headers my_headers.txt -rua
+headerpwn -url https://example.com -headers my_headers.txt -user-agent "Mozilla/4.0"
 ```
 
 - Format of `my_headers.txt` should be like below:
@@ -84,3 +86,4 @@ headerpwn -url https://example.com -headers my_headers.txt -proxy 127.0.0.1:8080
 ## Credits
 The `headers.txt` file is compiled from various sources, including the [Seclists project](https://github.com/danielmiessler/SecLists). These headers are used for testing purposes and provide a variety of scenarios for analyzing how servers respond to different headers.
 
+The `useragents.txt` file is the one used by [SQLMap](https://github.com/sqlmapproject/sqlmap/).
